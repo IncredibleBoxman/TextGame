@@ -10,7 +10,7 @@ This program is a simple guessing number text game for the NES.
 //#link "chr_generic.s"
 
 // main function, run after console reset
-int max = 1000;
+int max = 1001;
 int min = 1;
 int guess = 500; 
 char str[12]; 
@@ -123,7 +123,8 @@ void main(void)
   pal_col(3,0x30);	// white
 
   // write text to name table
-  
+  vram_adr(NTADR_A(2,10));
+  vram_write("PICK A NUMBER BETWEEN 1-1000",28);// write bytes to video RAM
   
   vram_adr(NTADR_A(2,6));
   vram_write("I WILL GUESS YOUR NUMBER!",25);// write bytes to video RAM
