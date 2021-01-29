@@ -10,9 +10,9 @@ This program is a simple guessing number text game for the NES.
 //#link "chr_generic.s"
 
 // main function, run after console reset
-int max = 1001;
-int min = 1;
-int guess = 500; 
+int max;
+int min;
+int guess;
 char str[12]; 
 //Function to handle guesses
 void myGuess()
@@ -55,6 +55,8 @@ void getGuess(){
 //function to declare computer the winner. 
 void winner()
 {
+  char pad1;
+  int bool1 = 1; 
   ppu_off();
   vram_adr(NAMETABLE_A);
   vram_fill(0,1024);
@@ -65,10 +67,24 @@ void winner()
   vram_adr(NTADR_A(12,15));
   vram_write("I WIN!", 6);
   
+  vram_adr(NTADR_A(2,20));
+  vram_write("PRESS START TO PLAY AGAIN!", 26);
+  
   //vram_adr(NTADR_A(4,20));
   //vram_write("PRESS START TO PLAY AGAIN!", 26);
   ppu_on_all(); 
+  while (bool1) {
+    pad1 = pad_trigger(0);
+    if (pad1 & PAD_START) 
+    {
+      bool1 = 0; 
+      
+      
+    }
+  }
+  
 }
+
 
 
 //function to enter into the gamestate, where our game loop occurs. 
@@ -78,6 +94,8 @@ void GameState(void)
   
   char pad1;
   int bool = 1;
+  max = 1001;
+  min = 1; 
   guess = 500; 
 
   
@@ -101,6 +119,7 @@ void GameState(void)
     {
       bool = 0;
       winner(); 
+      GameState(); 
     }
   }
 }
